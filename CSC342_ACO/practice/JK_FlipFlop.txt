@@ -1,0 +1,33 @@
+module JK_FlipFlop(J,K,Clk,Q);
+	input J,K,Clk;
+	output reg Q;
+	
+	always @ (posedge Clk)
+	case({J,K})
+		2'b00: Q<=Q;
+		2'b01: Q<=0;
+		2'b10: Q<=1;
+		2'b11: Q<=~Q;
+	endcase	
+endmodule
+
+module t_JK_FlipFlop;
+	wire Q;
+	reg Clk,J,K;
+	
+	JK_FlipFlop J1(J,K,Clk,Q);
+	
+	initial #200 $finish; 
+	
+	initial begin Clk=0; forever #5 Clk=~Clk; end
+	
+	initial begin
+		J=0; K=0; 
+	#5 J=0; K=1; 
+	#10 J=1; K=1; 
+	#15 J=0; K=1;
+	#10 J=1; K=0; 
+	#10 J=1; K=1; 
+	end
+	
+endmodule

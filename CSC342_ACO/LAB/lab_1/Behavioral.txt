@@ -1,0 +1,5 @@
+module 1_bit_full_adder_b(a,b,c,r,s,k);
+	input a,b,c,r;
+	output s,k;
+	reg s,k;
+	

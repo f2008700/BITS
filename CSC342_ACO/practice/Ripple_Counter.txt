@@ -1,0 +1,44 @@
+module JK_FF(input clk, rst, J, K, output reg JKOut);
+always @ (negedge clk, negedge rst)
+if (~rst) JKOut<=1'b0;
+else
+	case({J,K})
+		2'b00: JKOut<=JKOut;
+		2'b01: JKOut<=1'b0;
+		2'b10: JKOut<=1'b1;
+		2'b11: JKOut<=~JKOut;
+	endcase                                                                                                                                                                                                                                                                                                                                                                                               
+endmodule
+
+module RippleCounter(input clk, rst, output [0:7] RingOut);
+JK_FF JK0(clk, 1'b1, (RingOut[7]|~rst), ~(RingOut[7]|~rst), RingOut[0]);
+JK_FF JK1(clk, 1'b1, RingOut[0]&rst, ~(RingOut[0]&rst), RingOut[1]);
+JK_FF JK2(clk, 1'b1, RingOut[1]&rst, ~(RingOut[1]&rst), RingOut[2]);
+JK_FF JK3(clk, 1'b1, RingOut[2]&rst, ~(RingOut[2]&rst), RingOut[3]);
+JK_FF JK4(clk, 1'b1, RingOut[3]&rst, ~(RingOut[3]&rst), RingOut[4]);
+JK_FF JK5(clk, 1'b1, RingOut[4]&rst, ~(RingOut[4]&rst), RingOut[5]);
+JK_FF JK6(clk, 1'b1, RingOut[5]&rst, ~(RingOut[5]&rst), RingOut[6]);
+JK_FF JK7(clk, 1'b1, RingOut[6]&rst, ~(RingOut[6]&rst), RingOut[7]);
+endmodule
+
+module testbench;
+	reg clk;
+	reg rst;
+	wire [0:7] RingOut;
+
+RippleCounter R1(clk,rst,RingOut);
+
+initial #200 $finish;
+initial
+	begin
+		//Q = 8'b10000000;
+		rst = 1'b0;
+		clk = 1'b0;
+		#5 clk = 1'b1; rst = 1'b1;
+		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;
+		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;
+		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;
+		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;
+		#5 clk = 0;		#5 clk = 1;		#5 clk = 0;		#5 clk = 1;
+	end
+endmodule

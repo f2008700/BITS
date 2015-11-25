@@ -1,0 +1,88 @@
+module JK_FF(input clk, rst, J, K, output reg JKOut);
+always @ (negedge clk, negedge rst)
+if (~rst) JKOut<=1'b0;
+else
+	case({J,K})
+		2'b00: JKOut<=JKOut;
+		2'b01: JKOut<=1'b0;
+		2'b10: JKOut<=1'b1;
+		2'b11: JKOut<=~JKOut;
+	endcase                                                                                                                                                                                                                                                                                                                                                                                               
+endmodule
+
+module RingCounter(input clk, rst, output [0:7] RingOut);
+JK_FF JK0(clk, 1'b1, (RingOut[7]|~rst), ~(RingOut[7]|~rst), RingOut[0]);
+JK_FF JK1(clk, 1'b1, RingOut[0]&rst, ~(RingOut[0]&rst), RingOut[1]);
+JK_FF JK2(clk, 1'b1, RingOut[1]&rst, ~(RingOut[1]&rst), RingOut[2]);
+JK_FF JK3(clk, 1'b1, RingOut[2]&rst, ~(RingOut[2]&rst), RingOut[3]);
+JK_FF JK4(clk, 1'b1, RingOut[3]&rst, ~(RingOut[3]&rst), RingOut[4]);
+JK_FF JK5(clk, 1'b1, RingOut[4]&rst, ~(RingOut[4]&rst), RingOut[5]);
+JK_FF JK6(clk, 1'b1, RingOut[5]&rst, ~(RingOut[5]&rst), RingOut[6]);
+JK_FF JK7(clk, 1'b1, RingOut[6]&rst, ~(RingOut[6]&rst), RingOut[7]);
+endmodule
+
+module Encoder(input [7:0] i, output reg [2:0] q);
+always @ (i)
+if (i[0]==1) q = 3'b111;
+else if (i[1] == 1) q = 3'b110;
+else if (i[2] == 1) q = 3'b101;
+else if (i[3] == 1) q = 3'b100;
+else if (i[4] == 1) q = 3'b011;
+else if (i[5] == 1) q = 3'b010;
+else if (i[6] == 1) q = 3'b001;
+else if (i[7] == 1) q = 3'b000; 
+endmodule
+
+module DownCounter(input clk, rst, output [2:0] q);
+wire [7:0] rc_out;
+wire [2:0] e_out;
+RingCounter RC(clk, rst, rc_out);
+Encoder E(rc_out, e_out);
+assign q = ~e_out;
+endmodule
+
+module testbench;
+reg clk;
+reg rst;
+wire [2:0] Q;
+
+DownCounter RC(clk, rst, Q);
+
+initial
+	begin
+		//Q = 8'b10000000;
+		rst = 1'b0;
+		clk = 1'b0;
+		#5 clk = 1'b1; rst = 1'b1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+		#5 clk = 0;
+		#5 clk = 1;
+	end
+
+initial #200 $finish;
+endmodule

@@ -1,0 +1,32 @@
+mux_2X1_beh(m_Out,in_0,in_1,in_2,in_3,select);
+	output reg m_Out;
+	input in_0,in_1,in_2,in_3;
+	input [1:0] select;
+	
+	always @ (in_0,in_1,in_2,in_3,select)
+		case(select)
+			2'b00: m_Out=in_0;
+			2'b01: m_Out=in_1;	
+			2'b10: m_Out=in_2;
+			2'b11: m_Out=in_3;
+		endcase	
+endmodule
+
+module t_mux_2X1_beh;
+	wire m_Out;
+	reg in_0,in_1,in_2,in_3;
+	reg [1:0] select;
+	
+	mux_2X1_beh M1(m_Out,in_0,in_1,in_2,in_3,select);
+
+	initial # 40 $finish;
+	
+	initial begin 
+		in_0=0; in_0=0; in_1=0; in_2=0; in_3=0; select=1;
+		#5 in_0=0; in_0=0; in_1=0; in_2=1; in_3=0; select=1;
+		#5 in_0=0; in_0=0; in_1=0; in_2=0; in_3=1; select=1;
+		#5 in_0=0; in_0=1; in_1=0; in_2=0; in_3=0; select=1;
+		#5 in_0=1; in_0=0; in_1=0; in_2=0; in_3=0; select=1;
+	end 
+
+endmodule	

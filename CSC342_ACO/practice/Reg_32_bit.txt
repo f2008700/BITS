@@ -1,0 +1,62 @@
+module D_FlipFlop(Clk,D,Q,Enable);
+	output reg Q;
+	input Clk,D,Enable;
+	
+	always @ (posedge Clk)
+		if(Enable)
+			Q<=D;
+		else	
+			Q<=Q;
+	
+endmodule
+
+module Reg_32_bit(Clk,D,Q,Enable);
+	output [31:0] Q;
+	input Clk; input Enable;
+	input [31:0] D;
+	
+	D_FlipFlop D0(Clk,D[0],Q[0],Enable);	   D_FlipFlop D1(Clk,D[1],Q[1],Enable);
+	D_FlipFlop D2(Clk,D[2],Q[2],Enable);		D_FlipFlop D3(Clk,D[3],Q[3],Enable);
+	D_FlipFlop D4(Clk,D[4],Q[4],Enable);		D_FlipFlop D5(Clk,D[5],Q[5],Enable);
+	D_FlipFlop D6(Clk,D[6],Q[6],Enable);		D_FlipFlop D7(Clk,D[7],Q[7],Enable);
+	D_FlipFlop D08(Clk,D[8],Q[8],Enable);		D_FlipFlop D9(Clk,D[9],Q[9],Enable);
+	D_FlipFlop D10(Clk,D[10],Q[10],Enable);	D_FlipFlop D11(Clk,D[11],Q[11],Enable);
+	D_FlipFlop D12(Clk,D[12],Q[12],Enable);	D_FlipFlop D13(Clk,D[13],Q[13],Enable);
+	D_FlipFlop D14(Clk,D[14],Q[14],Enable);	D_FlipFlop D15(Clk,D[15],Q[15],Enable);
+	D_FlipFlop D16(Clk,D[16],Q[16],Enable);	D_FlipFlop D17(Clk,D[17],Q[17],Enable);
+	D_FlipFlop D18(Clk,D[18],Q[18],Enable);	D_FlipFlop D19(Clk,D[19],Q[19],Enable);
+	D_FlipFlop D20(Clk,D[20],Q[20],Enable);	D_FlipFlop D21(Clk,D[21],Q[21],Enable);
+	D_FlipFlop D22(Clk,D[22],Q[22],Enable);	D_FlipFlop D23(Clk,D[23],Q[23],Enable);
+	D_FlipFlop D24(Clk,D[24],Q[24],Enable);  	D_FlipFlop D25(Clk,D[25],Q[25],Enable);
+	D_FlipFlop D26(Clk,D[26],Q[26],Enable);  	D_FlipFlop D27(Clk,D[27],Q[27],Enable);
+	D_FlipFlop D28(Clk,D[28],Q[28],Enable);  	D_FlipFlop D29(Clk,D[29],Q[29],Enable);
+	D_FlipFlop D30(Clk,D[30],Q[30],Enable);  	D_FlipFlop D31(Clk,D[31],Q[31],Enable);
+endmodule	
+
+module t_Reg_32_bit;
+	wire [31:0] Q;
+	reg Clk,Enable;
+	reg [31:0] D;
+	
+	Reg_32_bit R0(Clk,D,Q,Enable);
+	
+	initial #200 $finish; 
+	
+	initial begin Clk=0; forever #5 Clk=~Clk; end
+	
+	initial begin
+		Enable=1; D=32'b00000000000000000000000000000000;
+	#5 D=D+2'b10;
+	#10 D=D+2'b10;
+	#10 D=D+2'b10; Enable=0;
+	#15 D=D+2'b10;
+	#10 D=D+2'b10; Enable=1;
+	#10 D=D+2'b10;
+	#10 D=D+2'b10; Enable=0;
+	#10 D=D+2'b10;
+	#10 D=D+2'b10; Enable=1;
+	#10 D=D+2'b10;
+	
+	end
+	
+endmodule

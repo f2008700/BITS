@@ -1,0 +1,34 @@
+module T_FlipFlop(Clk,T,Q,reset);
+	input T,Clk,reset;
+	output reg Q;
+	
+	always @ (posedge Clk)
+		if(~reset)
+			case({T})
+				1'b0: Q<=Q;
+				1'b1: Q<=~Q;
+			endcase
+		else
+			Q=0;
+endmodule
+
+module t_T_FlipFlop;
+	wire Q;
+	reg Clk,T,reset;
+	
+	T_FlipFlop(Clk,T,Q,reset);
+	
+	initial #200 $finish; 
+	
+	initial begin Clk=1; forever #5 Clk=~Clk; end
+	
+	initial begin
+		T=0; reset=1;
+	#5 T=1; reset=0;
+	#10 T=0;
+	#15 T=1;
+	#5  T=0;
+	#10 T=1;
+	end
+	
+endmodule

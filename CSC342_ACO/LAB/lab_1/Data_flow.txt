@@ -1,0 +1,6 @@
+module 1_bit_full_adder_df(a,b,c,r,s,k);
+	input a,b,c,r;
+	output s,k;
+	assign s=(((~a&~b&c)|(~a&b&~c)|(a&~b&c)|(a&b&c))&(~r));
+	assign k=(((a&b)|(b&c)|(c&a))&(~r))
+endmodule	

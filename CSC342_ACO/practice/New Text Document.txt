@@ -1,0 +1,48 @@
+module muxp(omux,ir0,ir1,ir2,ir3,ir4,ir5,ir6,ir7,ir8,ir9,ir10,ir11,ir12,ir13,ir14,ir15,ir16,ir17,ir18,ir19,ir20,ir21,ir22,ir23,ir24,ir25,ir26,ir27,ir28,ir29,ir30,ir31,selr);
+output reg[31:0] omux;
+//input en;
+input [4:0]selr;
+input[31:0] ir0,ir1,ir2,ir3,ir4,ir5,ir6,ir7,ir8,ir9,ir10,ir11,ir12,ir13,ir14,ir15,ir16,ir17,ir18,ir19,ir20,ir21,ir22,ir23,ir24,ir25,ir26,ir27,ir28,ir29,ir30,ir31;
+parameter s0=5'b00000,s1=5'b00001,s2=5'b00010,s3=5'b00011,s4=5'b00100,s5=5'b00101,s6=5'b00110,s7=5'b00111,s8=5'b01000,s9=5'b01001,s10=5'b01010,s11=5'b01011,s12=5'b01100,s13=5'b01101,s14=5'b01110,s15=5'b01111,s16=5'b10000,s17=5'b10001,s18=5'b10010,s19=5'b10011,s20=5'b10100,s21=5'b10101,s22=5'b10110,s23=5'b10111,s24=5'b11000,s25=5'b11001,s26=5'b11010,s27=5'b11011,s28=5'b11100,s29=5'b11101,s30=5'b11110,s31=5'b11111;
+//if(en) omux=32'b
+//else case(selr)
+
+always @(selr)
+case(selr)
+s0: assign omux=ir0;
+s1: assign omux=ir1;
+s2: assign omux=ir2;
+s3: assign omux=ir3;
+s4: assign omux=ir4;
+s5: assign omux=ir5;
+s6: assign omux=ir6;
+s7: assign omux=ir7;
+s8: assign omux=ir8;
+s9: assign omux=ir9;
+s10: assign omux=ir10;
+s11: assign omux=ir11;
+s12: assign omux=ir12;
+s13: assign omux=ir13;
+s14: assign omux=ir14;
+s15: assign omux=ir15;
+s16: assign omux=ir16;
+s17: assign omux=ir17;
+s18: assign omux=ir18;
+s19: assign omux=ir19;
+s20: assign omux=ir20;
+s21: assign omux=ir21;
+s22: assign omux=ir22;
+s23: assign omux=ir23;
+s24: assign omux=ir24;
+s25: assign omux=ir25;
+s26: assign omux=ir26;
+s27: assign omux=ir27;
+s28: assign omux=ir28;
+s29: assign omux=ir29;
+s30: assign omux=ir30;
+s31: assign omux=ir31;
+
+endcase
+
+
+endmodule

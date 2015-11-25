@@ -1,0 +1,27 @@
+module D_FlipFlop(Clk,D,Q);
+	output reg Q;
+	input Clk,D;
+	
+	always @ (posedge Clk)
+		Q<=D;
+	
+endmodule
+
+module t_D_FlipFlop;
+	wire Q;
+	reg Clk,D;
+	
+	D_FlipFlop D1(Clk,D,Q);
+	
+	initial #200 $finish; 
+	
+	initial begin Clk=0; forever #5 Clk=~Clk; end
+	
+	initial begin
+		D=0;
+	#5 D=~D;
+	#10 D=~D;
+	#15 D=~D;
+	end
+	
+endmodule	
