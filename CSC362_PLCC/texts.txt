@@ -1,0 +1,3 @@
+Please test it against "shapes.tar.gz"
+
+It is assumed that the number of columns in each row is constant throughout the file. 
