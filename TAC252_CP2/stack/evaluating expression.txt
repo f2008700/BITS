@@ -1,0 +1,87 @@
+//WAP to evaluate a postfix expression
+#include<iostream.h>
+#include<conio.h>
+#include<string.h>
+#include<stdio.h>
+#include<ctype.h>
+#include<math.h>
+class EvaluatePostfix
+{
+char P[50];
+int top;
+float stack[50];
+public:
+EvaluatePostfix();
+void readExpression();
+float evaluate();
+void display();
+float pop();
+void push(float);
+};
+EvaluatePostfix::EvaluatePostfix()
+{
+P[0]='\0';
+top=-1;
+for(int i=0;i<50;i++)
+stack[i]=0;
+}
+void EvaluatePostfix::readExpression()
+{
+gets(P);
+}
+float EvaluatePostfix::evaluate()
+{
+int l=strlen(P);
+float a,b,c,ans,ch;
+for(int i=0;i<l;i++)
+{
+if(isdigit(P[i]))
+{
+ch=P[i]-'0';
+push(ch);
+}
+else
+{
+b=pop();
+a=pop();
+if(P[i]=='^')
+c=pow(a,b);
+else if(P[i]=='/')
+c=a/b;
+else if(P[i]=='*')
+c=a*b;
+else if(P[i]=='+')
+c=a+b;
+else
+c=a-b;
+push(c);
+}
+}
+ans=pop();
+return ans;
+}
+float EvaluatePostfix::pop()
+{
+float val=stack[top];
+top--;
+return val;
+}
+void EvaluatePostfix::push(float val)
+{
+top++;
+stack[top]=val;
+}
+void EvaluatePostfix::display()
+{
+float ans=evaluate();
+cout<<"Result = "<<ans;
+}
+void main()
+{
+clrscr();
+EvaluatePostfix ob;
+cout<<"Enter a postfix expression"<<endl;
+ob.readExpression();
+ob.display();
+getch();
+}
